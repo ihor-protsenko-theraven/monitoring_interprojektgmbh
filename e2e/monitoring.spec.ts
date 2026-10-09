@@ -8,6 +8,37 @@ async function login(page: Page) {
   await expect(page).toHaveURL(/\/stations$/);
 }
 
+test('serves Leaflet styles and images with the correct MIME types', async ({ request }) => {
+  const stylesheet = await request.get('/assets/leaflet/leaflet.css');
+  expect(stylesheet.status()).toBe(200);
+  expect(stylesheet.headers()['content-type']).toContain('text/css');
+  expect(await stylesheet.text()).toContain('.leaflet-pane');
+
+  const image = await request.get('/assets/leaflet/images/layers.png');
+  expect(image.status()).toBe(200);
+  expect(image.headers()['content-type']).toContain('image/png');
+});
+
+test('zooms the map in and out with the mouse wheel', async ({ page }) => {
+  await login(page);
+  const map = page.locator('.leaflet-container');
+  await map.scrollIntoViewIfNeeded();
+  await expect(page.locator('.leaflet-tile-loaded').first()).toBeVisible({ timeout: 20000 });
+  const tileZoom = async () => {
+    const source = await page.locator('.leaflet-tile-loaded').first().getAttribute('src');
+    return Number(new URL(source!).pathname.split('/')[1]);
+  };
+  const initialZoom = await tileZoom();
+  await map.hover();
+  await page.mouse.wheel(0, -500);
+  await expect.poll(tileZoom, { timeout: 20000 }).toBeGreaterThan(initialZoom);
+  const enlargedZoom = await tileZoom();
+  await expect(map).not.toHaveClass(/leaflet-zoom-anim/);
+  await page.mouse.wheel(0, 500);
+  await expect.poll(tileZoom, { timeout: 20000 }).toBeLessThan(enlargedZoom);
+  await expect(map).not.toHaveClass(/leaflet-zoom-anim/);
+});
+
 test('keeps map CSS out of login and preserves station navigation when CSS fails', async ({
   page,
 }) => {

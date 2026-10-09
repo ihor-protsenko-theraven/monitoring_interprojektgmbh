@@ -45,10 +45,9 @@ export class StationsMap {
         return;
       }
       if (this.destroyRef.destroyed) return;
-      const map = L.map(this.host().nativeElement, { scrollWheelZoom: false }).setView(
-        MAP_CONFIG.center,
-        MAP_CONFIG.zoom,
-      );
+      const map = L.map(this.host().nativeElement, {
+        scrollWheelZoom: MAP_CONFIG.scrollWheelZoom,
+      }).setView(MAP_CONFIG.center, MAP_CONFIG.zoom);
       L.tileLayer(MAP_CONFIG.tileUrl, {
         attribution: MAP_CONFIG.attribution,
         maxZoom: MAP_CONFIG.maxZoom,

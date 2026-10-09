@@ -5,6 +5,7 @@ export const MAP_CONFIG = {
   stylesError: 'Unable to load map styles',
   center: [50.266, 28.665] as LatLngTuple,
   zoom: 12,
+  scrollWheelZoom: true,
   maxZoom: 19,
   tileUrl: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
   attribution:
