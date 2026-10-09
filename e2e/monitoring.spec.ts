@@ -19,6 +19,21 @@ test('serves Leaflet styles and images with the correct MIME types', async ({ re
   expect(image.headers()['content-type']).toContain('image/png');
 });
 
+test('loads tiles only for the final initial map zoom', async ({ page }) => {
+  const zoomLevels = new Set<string>();
+  page.on('request', (request) => {
+    const url = new URL(request.url());
+    if (url.hostname === 'tile.openstreetmap.org') {
+      zoomLevels.add(url.pathname.split('/')[1]);
+    }
+  });
+  await login(page);
+  await page.locator('.map-zone').scrollIntoViewIfNeeded();
+  await expect(page.locator('.leaflet-interactive')).toHaveCount(3);
+  await expect(page.locator('.leaflet-tile-loaded').first()).toBeVisible({ timeout: 20000 });
+  expect(zoomLevels.size).toBe(1);
+});
+
 test('zooms the map in and out with the mouse wheel', async ({ page }) => {
   await login(page);
   const map = page.locator('.leaflet-container');

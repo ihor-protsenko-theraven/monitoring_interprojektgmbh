@@ -47,13 +47,11 @@ export class StationsMap {
       if (this.destroyRef.destroyed) return;
       const map = L.map(this.host().nativeElement, {
         scrollWheelZoom: MAP_CONFIG.scrollWheelZoom,
+        wheelDebounceTime: MAP_CONFIG.wheelDebounceTime,
+        wheelPxPerZoomLevel: MAP_CONFIG.wheelPxPerZoomLevel,
+        fadeAnimation: MAP_CONFIG.fadeAnimation,
+        trackResize: MAP_CONFIG.trackResize,
       }).setView(MAP_CONFIG.center, MAP_CONFIG.zoom);
-      L.tileLayer(MAP_CONFIG.tileUrl, {
-        attribution: MAP_CONFIG.attribution,
-        maxZoom: MAP_CONFIG.maxZoom,
-      })
-        .on('tileerror', () => this.tileError.set(true))
-        .addTo(map);
       const bounds: L.LatLngTuple[] = [];
       for (const station of this.stations()) {
         const point: L.LatLngTuple = [station.meta.lat, station.meta.lng];
@@ -71,8 +69,20 @@ export class StationsMap {
           .on('click', () => void this.router.navigate([ROUTE_URLS.stations, station.meta.id]))
           .addTo(map);
       }
-      map.fitBounds(bounds, { padding: MAP_CONFIG.boundsPadding });
-      const resize = new ResizeObserver(() => map.invalidateSize());
+      // Select the final viewport before requesting tiles for it.
+      map.fitBounds(bounds, {
+        padding: MAP_CONFIG.boundsPadding,
+        animate: MAP_CONFIG.fitBoundsAnimate,
+      });
+      L.tileLayer(MAP_CONFIG.tileUrl, {
+        attribution: MAP_CONFIG.attribution,
+        maxZoom: MAP_CONFIG.maxZoom,
+        updateWhenIdle: MAP_CONFIG.updateWhenIdle,
+        updateWhenZooming: MAP_CONFIG.updateWhenZooming,
+      })
+        .on('tileerror', () => this.tileError.set(true))
+        .addTo(map);
+      const resize = new ResizeObserver(() => map.invalidateSize(MAP_CONFIG.resizeOptions));
       resize.observe(this.host().nativeElement);
       this.destroyRef.onDestroy(() => {
         resize.disconnect();
