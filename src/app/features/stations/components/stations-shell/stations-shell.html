@@ -1,0 +1,19 @@
+<header class="app-header">
+  <div class="session-bar">
+    <a class="brand" [routerLink]="routes.stations"
+      ><span class="brand-mark" aria-hidden="true">≈</span
+      ><span
+        >{{ text.brand }}<small>{{ text.section }}</small></span
+      ></a
+    >
+    <nav>
+      <a class="overview-link" [routerLink]="routes.stations">{{ text.overview }}</a>
+    </nav>
+    <div class="session-controls">
+      <span class="demo-badge">{{ text.demo }}</span
+      ><span class="user-name">{{ username }}</span
+      ><button class="filter-btn" (click)="logout()">{{ text.logout }}</button>
+    </div>
+  </div>
+</header>
+<router-outlet />

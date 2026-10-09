@@ -1,0 +1,61 @@
+@use '../../../../../styles/breakpoints' as breakpoints;
+:host {
+  display: block;
+  min-width: 0;
+}
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--size-lg);
+}
+.metrics > div {
+  padding: var(--size-page);
+  background: var(--color-surface-raised);
+  border: var(--size-border) solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+dt {
+  color: var(--color-text-muted);
+  font-size: var(--font-label);
+}
+dd {
+  margin-top: var(--size-base);
+  font-size: var(--font-metric);
+  font-weight: var(--weight-semibold);
+  font-variant-numeric: tabular-nums;
+  line-height: var(--line-height-heading);
+}
+dd small {
+  margin-left: var(--size-sm);
+  font-size: var(--size-base);
+  color: var(--color-text-muted);
+  font-weight: normal;
+}
+.compact {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--size-lg);
+}
+.compact > div {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+}
+.compact dt {
+  font-size: var(--size-base);
+}
+.compact dd {
+  font-size: var(--size-status);
+  margin-top: var(--size-md);
+}
+@media (max-width: breakpoints.$cards) {
+  .metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .metrics > div {
+    padding: var(--size-lg);
+  }
+  .compact > div {
+    padding: 0;
+  }
+}

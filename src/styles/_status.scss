@@ -1,0 +1,25 @@
+.st-norma {
+  --status-color: var(--color-success);
+  --status-border: var(--color-success-dark);
+}
+.st-uvaga {
+  --status-color: var(--color-warning);
+  --status-border: var(--color-warning-dark);
+}
+.st-avaria {
+  --status-color: var(--color-danger);
+  --status-border: var(--color-danger-dark);
+}
+.st-zupynka,
+.st-ne-vyznach {
+  --status-color: var(--color-text-muted);
+  --status-border: var(--color-neutral-border);
+}
+.station-status-label,
+.nested-status-pill,
+.status-text {
+  color: var(--status-color);
+}
+.nested-status-pill {
+  border-color: var(--status-border);
+}

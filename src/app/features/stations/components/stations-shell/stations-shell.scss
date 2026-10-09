@@ -1,0 +1,76 @@
+@use '../../../../../styles/breakpoints' as breakpoints;
+.app-header {
+  background: var(--color-surface-raised);
+  border-bottom: var(--size-border) solid var(--color-border);
+}
+.session-bar {
+  max-width: var(--size-page-width);
+  margin: auto;
+  padding: var(--size-lg) var(--size-page);
+  display: flex;
+  align-items: center;
+  gap: var(--size-section);
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--size-base);
+  color: var(--color-text);
+  text-decoration: none;
+  font-weight: var(--weight-semibold);
+}
+.brand small {
+  display: block;
+  color: var(--color-text-muted);
+  font-size: var(--size-base);
+  font-weight: normal;
+}
+.brand-mark {
+  width: var(--control-height);
+  height: var(--control-height);
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-md);
+  color: var(--color-accent);
+  background: var(--color-accent-soft);
+  font-size: var(--size-mark);
+  line-height: 1;
+}
+.overview-link {
+  color: var(--color-text-muted);
+  text-decoration: none;
+  font-size: var(--font-label);
+}
+.overview-link:hover {
+  color: var(--color-text);
+}
+.session-controls {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--size-lg);
+}
+.demo-badge {
+  padding: var(--size-xs) var(--size-control);
+  border: var(--size-border) solid var(--color-border);
+  border-radius: var(--radius-pill);
+  color: var(--color-text-muted);
+  font-size: var(--size-base);
+}
+.user-name {
+  font-size: var(--font-label);
+  color: var(--color-text-muted);
+}
+@media (max-width: breakpoints.$mobile) {
+  .session-bar {
+    padding: var(--size-base) var(--size-lg);
+    gap: var(--size-md);
+  }
+  nav,
+  .user-name {
+    display: none;
+  }
+  .demo-badge {
+    display: none;
+  }
+}

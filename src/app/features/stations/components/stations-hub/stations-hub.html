@@ -1,0 +1,65 @@
+<main class="page">
+  <header class="page-header overview-header">
+    <div>
+      <p class="eyebrow">{{ text.eyebrow }}</p>
+      <h1 class="page-title">{{ text.title }}</h1>
+      <p class="page-subtitle">{{ text.subtitle }}</p>
+    </div>
+    <div class="reference-date">
+      <span>{{ text.updated }}</span
+      ><strong>{{ referenceDate() }}</strong
+      ><span>{{ text.reference }} {{ display.observationTime }}</span>
+    </div>
+  </header>
+  <section class="network-summary" [attr.aria-label]="text.summary">
+    <div>
+      <span>{{ text.total }}</span
+      ><strong>{{ summary().total }}</strong>
+    </div>
+    <div>
+      <span>{{ text.normal }}</span
+      ><strong class="summary-normal">{{ summary().normal }}</strong>
+    </div>
+    <div>
+      <span>{{ text.attention }}</span
+      ><strong class="summary-attention">{{ summary().attention }}</strong>
+    </div>
+    <div>
+      <span>{{ text.outage }}</span
+      ><strong>{{ summary().outage }}</strong>
+    </div>
+  </section>
+  @if (summary().unknown) {
+    <p class="page-subtitle">{{ text.unknown }}: {{ summary().unknown }}</p>
+  }
+  <div class="section-heading">
+    <h2 class="section-title">{{ text.statuses }}</h2>
+    <span>{{ text.reference }} {{ display.observationTime }}</span>
+  </div>
+  <div class="station-cards-grid">
+    @for (station of cards(); track station.meta.id) {
+      <a [routerLink]="[routes.stations, station.meta.id]" [class]="station.cardClass"
+        ><div class="station-card-header">
+          <span class="station-icon" aria-hidden="true">≈</span>
+          <p [class]="station.statusClass">{{ station.statusLabel }}</p>
+        </div>
+        <h3 class="station-name">{{ station.meta.name }}</h3>
+        <app-station-metrics [day]="station.today" [compact]="true" />
+        <div class="station-hint">{{ text.hint }}<span aria-hidden="true">↗</span></div></a
+      >
+    }
+  </div>
+  <div class="section-heading">
+    <div>
+      <h2 class="section-title">{{ text.map }}</h2>
+      <p class="page-subtitle">{{ text.mapHint }}</p>
+    </div>
+  </div>
+  <section class="map-zone">
+    @defer (on viewport) {
+      <app-stations-map [stations]="store.stations()" />
+    } @placeholder {
+      <div class="map-placeholder">{{ text.loading }}</div>
+    }
+  </section>
+</main>

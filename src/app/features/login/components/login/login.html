@@ -1,0 +1,38 @@
+<main class="login-page">
+  <div class="login-layout">
+    <aside class="login-intro">
+      <p class="eyebrow">{{ text.eyebrow }}</p>
+      <h2>{{ text.hero }}</h2>
+      <p class="intro-description">{{ text.heroDescription }}</p>
+      <ul>
+        <li>{{ text.featureOne }}</li>
+        <li>{{ text.featureTwo }}</li>
+        <li>{{ text.featureThree }}</li>
+      </ul>
+      <p class="demo-note">{{ text.demoNote }}</p>
+    </aside>
+    <section class="login-card" aria-labelledby="login-title">
+      <div class="login-mark" aria-hidden="true">◉</div>
+      <p class="eyebrow">{{ text.brand }}</p>
+      <h1 id="login-title">{{ text.title }}</h1>
+      <p class="page-subtitle">{{ text.subtitle }}</p>
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <label for="username">{{ text.username }}</label>
+        <input id="username" formControlName="username" autocomplete="username" required />
+        <label for="password">{{ text.password }}</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          autocomplete="current-password"
+          required
+        />
+        <p class="login-error" role="alert" aria-live="polite">{{ error() }}</p>
+        <button class="primary-btn" type="submit">{{ text.submit }}</button>
+      </form>
+      <p class="demo-caption">
+        {{ text.demo }} <strong>{{ demoAuth.username }} / {{ demoAuth.password }}</strong>
+      </p>
+    </section>
+  </div>
+</main>

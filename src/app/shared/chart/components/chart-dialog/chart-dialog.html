@@ -1,0 +1,9 @@
+<dialog #dialog class="chart-dialog" (cancel)="cancel($event)" aria-labelledby="chart-title">
+  <header class="chart-fullscreen-header">
+    <h2 id="chart-title" class="chart-fullscreen-title">{{ spec().title }}</h2>
+    <button class="back-btn" (click)="closed.emit()">{{ text.close }}</button>
+  </header>
+  <div class="chart-fullscreen-body">
+    <app-line-chart [config]="spec().config" [label]="spec().title" />
+  </div>
+</dialog>

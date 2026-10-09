@@ -1,0 +1,38 @@
+@use '../../../../../styles/breakpoints' as breakpoints;
+.stations-map {
+  border-radius: var(--radius-sm);
+  height: var(--size-map-height);
+  background: var(--color-surface);
+}
+.map-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--size-lg);
+  margin-top: var(--size-base);
+  font-size: var(--size-base);
+}
+.map-links a {
+  color: var(--color-accent);
+}
+@media (max-width: breakpoints.$mobile) {
+  .stations-map {
+    height: var(--size-map-mobile-height);
+  }
+}
+
+.map-links {
+  padding: var(--size-md);
+}
+.map-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-height);
+  padding: var(--size-sm) var(--size-base);
+  border-radius: var(--radius-sm);
+  border: var(--size-border) solid var(--color-border);
+  text-decoration: none;
+  font-size: var(--font-label);
+}
+.map-links a:hover {
+  background: var(--color-surface-hover);
+}

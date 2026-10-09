@@ -1,0 +1,143 @@
+@use '../../../../../styles/breakpoints' as breakpoints;
+:host {
+  display: block;
+}
+.login-page {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: var(--size-section) var(--size-page);
+}
+.login-layout {
+  width: min(100%, var(--login-layout-width));
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, var(--login-width));
+  align-items: center;
+  gap: var(--size-section);
+}
+.login-intro {
+  max-width: var(--login-hero-width);
+  padding-right: var(--size-section);
+}
+.login-intro h2 {
+  font-size: var(--login-hero-size);
+  line-height: var(--line-height-hero);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--letter-spacing-heading);
+  margin: var(--size-page) 0;
+}
+.intro-description {
+  color: var(--color-text-muted);
+  font-size: var(--size-lg);
+  max-width: var(--login-width);
+}
+.login-intro ul {
+  list-style: none;
+  display: grid;
+  gap: var(--size-lg);
+  margin-top: var(--size-section);
+}
+.login-intro li {
+  display: flex;
+  align-items: center;
+  gap: var(--size-base);
+}
+.login-intro li::before {
+  content: '✓';
+  color: var(--color-accent);
+}
+.demo-note {
+  color: var(--color-text-subtle);
+  font-size: var(--size-base);
+  margin-top: var(--size-mark);
+}
+.login-card {
+  padding: var(--size-section);
+  background: var(--color-surface-raised);
+  border: var(--size-border) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-panel);
+}
+.login-mark {
+  color: var(--color-accent);
+  font-size: var(--size-mark);
+  margin-bottom: var(--size-page);
+}
+h1 {
+  font-size: var(--size-heading);
+  font-weight: var(--weight-semibold);
+  margin: var(--size-base) 0 var(--size-md);
+}
+form {
+  margin-top: var(--size-section);
+  display: grid;
+  gap: var(--size-md);
+}
+label {
+  font-size: var(--font-label);
+  color: var(--color-text-muted);
+}
+input {
+  width: 100%;
+  min-height: var(--control-height);
+  padding: var(--size-base);
+  margin-bottom: var(--size-base);
+  border: var(--size-border) solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+input:focus-visible {
+  border-color: var(--color-accent);
+}
+.login-error {
+  min-height: var(--size-xl);
+  font-size: var(--font-label);
+  color: var(--color-danger);
+}
+.primary-btn {
+  min-height: var(--control-height);
+  padding: var(--size-base);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  border: var(--size-border) solid var(--color-primary);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-weight: var(--weight-semibold);
+}
+.primary-btn:hover {
+  filter: brightness(var(--hover-brightness));
+}
+.demo-caption {
+  color: var(--color-text-muted);
+  font-size: var(--size-base);
+  text-align: center;
+  margin-top: var(--size-page);
+  padding-top: var(--size-lg);
+  border-top: var(--size-border) solid var(--color-border);
+}
+@media (max-width: breakpoints.$cards) {
+  .login-layout {
+    grid-template-columns: minmax(0, var(--login-width));
+    justify-content: center;
+  }
+  .login-intro {
+    padding: 0;
+  }
+  .login-intro h2 {
+    font-size: var(--font-title);
+    margin: var(--size-base) 0;
+  }
+  .login-intro ul,
+  .demo-note {
+    display: none;
+  }
+}
+@media (max-width: breakpoints.$mobile) {
+  .login-page {
+    padding: var(--size-page) var(--size-lg);
+  }
+  .login-card {
+    padding: var(--size-page);
+  }
+}

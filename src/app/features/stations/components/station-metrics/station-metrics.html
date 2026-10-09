@@ -1,0 +1,10 @@
+<dl class="metrics" [class.compact]="compact()">
+  @for (metric of metrics(); track metric.label) {
+    <div>
+      <dt>{{ metric.label }}</dt>
+      <dd>
+        {{ metric.value }}<small>{{ metric.unit }}</small>
+      </dd>
+    </div>
+  }
+</dl>

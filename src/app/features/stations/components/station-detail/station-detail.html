@@ -1,0 +1,148 @@
+@if (stationView(); as station) {
+  <header class="nested-header">
+    <a class="back-btn" [routerLink]="routes.stations">{{ text.back }}</a>
+    <div>
+      <h1 class="nested-title">{{ station.meta.name }}</h1>
+      <p class="page-subtitle">
+        {{ text.updated }} {{ station.dateLabel }} · {{ display.observationTime }}
+      </p>
+    </div>
+    <span [class]="station.statusClass">{{ station.statusLabel }}</span>
+  </header>
+  <main class="page">
+    <div class="snapshot-heading">
+      <h2 class="section-title">{{ text.snapshot }}</h2>
+      <p class="page-subtitle">{{ text.snapshotHint }}</p>
+    </div>
+    <app-station-metrics [day]="station.today" />
+    <div class="detail-filter-bar">
+      <strong class="period-label">{{ text.period }}</strong>
+      <label
+        >{{ text.from }}
+        <input
+          #fromDate
+          type="date"
+          [min]="station.days[0].date"
+          [max]="station.today.date"
+          [value]="period().from"
+          (change)="setDate('from', fromDate.value)"
+      /></label>
+      <label
+        >{{ text.to }}
+        <input
+          #toDate
+          type="date"
+          [min]="station.days[0].date"
+          [max]="station.today.date"
+          [value]="period().to"
+          (change)="setDate('to', toDate.value)"
+      /></label>
+      @if (invalidPeriod()) {
+        <p class="date-error" role="alert">{{ text.invalidPeriod }}</p>
+      }
+    </div>
+    <div class="chart-row">
+      @for (chart of daily(); track chart.key) {
+        <app-chart-panel [spec]="chart" (expand)="fullscreen.set($event)" />
+      }
+      <app-chart-panel [spec]="monthly()" (expand)="fullscreen.set($event)" />
+    </div>
+    <section class="equipment-zone daily-data-zone">
+      <h2 class="section-title">{{ text.daily }}</h2>
+      <div class="data-table-wrap">
+        <table class="notifications-table">
+          <thead>
+            <tr>
+              <th>{{ text.date }}</th>
+              <th>{{ text.flow }}</th>
+              <th>{{ text.baseline }}</th>
+              <th>{{ text.absoluteDeviation }}</th>
+              <th>{{ text.percentDeviation }}</th>
+              <th>{{ text.pressure }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (day of tableRows(); track day.date) {
+              <tr>
+                <td>{{ day.dateLabel }}</td>
+                <td>
+                  {{ day.flowLabel }}
+                </td>
+                <td>
+                  {{ day.baselineLabel }}
+                </td>
+                <td>
+                  {{ day.absoluteDeviationLabel }}
+                </td>
+                <td>
+                  {{ day.percentDeviationLabel }}
+                </td>
+                <td>
+                  {{ day.pressureLabel }}
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="6">{{ text.noData }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section class="notifications-zone">
+      <h2 class="section-title">{{ text.archive }}</h2>
+      <div class="map-filters">
+        @for (item of filterOptions(); track item.value) {
+          <button
+            class="filter-btn"
+            [class.active]="item.active"
+            [attr.aria-pressed]="item.active"
+            (click)="filter.set(item.value)"
+          >
+            {{ item.label }}
+          </button>
+        }
+      </div>
+      <div class="data-table-wrap">
+        <table class="notifications-table">
+          <thead>
+            <tr>
+              <th>{{ text.objectDate }}</th>
+              <th>{{ text.alertDeviation }}</th>
+              <th>{{ text.status }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (day of alertRows(); track day.date) {
+              <tr [class]="day.rowClass">
+                <td>{{ day.dateLabel }} · {{ station.meta.name }}</td>
+                <td>
+                  {{ day.percentDeviationLabel }}
+                </td>
+                <td [class]="day.statusClass">
+                  {{ day.statusLabel }}
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="3">{{ text.noAlerts }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  @if (activeChart(); as chart) {
+    @defer (on immediate) {
+      <app-chart-dialog [spec]="chart" (closed)="fullscreen.set(null)" />
+    }
+  }
+} @else {
+  <main class="page">
+    <h1 class="page-title">{{ text.missing }}</h1>
+    <p class="empty-state">{{ text.missingHint }}</p>
+    <a class="back-btn" [routerLink]="routes.stations">{{ text.toStations }}</a>
+  </main>
+}

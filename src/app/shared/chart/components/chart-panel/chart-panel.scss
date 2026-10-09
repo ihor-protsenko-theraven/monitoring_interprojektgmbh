@@ -1,0 +1,46 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+.equipment-zone {
+  height: 100%;
+}
+.chart-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--size-base);
+  margin-bottom: var(--size-lg);
+}
+.chart-heading .section-title {
+  margin-bottom: 0;
+  font-size: var(--font-body);
+}
+.chart-container {
+  height: var(--size-chart-height);
+  min-width: 0;
+}
+.chart-loading {
+  height: 100%;
+  display: grid;
+  place-items: center;
+  color: var(--color-text-muted);
+  font-size: var(--font-label);
+}
+.chart-expand-btn {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: var(--control-height);
+  height: var(--control-height);
+  border-radius: var(--radius-sm);
+  border: var(--size-border) solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  font-size: var(--size-status);
+}
+.chart-expand-btn:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}

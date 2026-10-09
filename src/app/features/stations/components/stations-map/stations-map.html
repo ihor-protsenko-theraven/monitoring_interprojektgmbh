@@ -1,0 +1,12 @@
+<div #mapHost class="stations-map" [attr.aria-label]="text.label"></div>
+@if (stylesError()) {
+  <p class="page-subtitle" role="status">{{ text.stylesUnavailable }}</p>
+}
+@if (tileError()) {
+  <p class="page-subtitle" role="status">{{ text.unavailable }}</p>
+}
+<nav class="map-links" [attr.aria-label]="text.stations">
+  @for (station of stations(); track station.meta.id) {
+    <a [routerLink]="[routes.stations, station.meta.id]">{{ station.meta.name }}</a>
+  }
+</nav>

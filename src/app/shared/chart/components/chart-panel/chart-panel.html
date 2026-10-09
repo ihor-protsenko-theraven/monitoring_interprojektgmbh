@@ -1,0 +1,22 @@
+<section class="equipment-zone">
+  <header class="chart-heading">
+    <h2 class="section-title">{{ spec().title }}</h2>
+    <button
+      class="chart-expand-btn"
+      (click)="expand.emit(spec())"
+      [attr.aria-label]="expandLabel()"
+    >
+      <span aria-hidden="true">⤢</span>
+    </button>
+  </header>
+  @if (spec().description; as description) {
+    <p class="zone-purpose">{{ description }}</p>
+  }
+  <div class="chart-container">
+    @defer (on viewport) {
+      <app-line-chart [config]="spec().config" [label]="spec().title" />
+    } @placeholder {
+      <div class="chart-loading">{{ text.loading }}</div>
+    }
+  </div>
+</section>
